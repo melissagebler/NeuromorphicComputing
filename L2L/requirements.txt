@@ -1,0 +1,11 @@
+numpy
+scipy
+pyyaml
+sphinx
+sphinxjp.themes.basicstrap
+jinja2
+gitpython
+scikit-learn
+flake8
+deap
+JUBE @ git+https://github.com/Meta-optimization/JUBE-L2L@master

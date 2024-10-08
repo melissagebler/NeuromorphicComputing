@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: L2L
+Version: 1.0.0b0
+Summary: This module provides the infrastructure create optimizers and optimizees in order to implement learning-to-learn
+Author: Anand Subramoney, Arjun Rao
+Author-email: anand@igi.tugraz.at, arjun@igi.tugraz.at
+Provides: l2l
+License-File: LICENSE
+License-File: AUTHORS
