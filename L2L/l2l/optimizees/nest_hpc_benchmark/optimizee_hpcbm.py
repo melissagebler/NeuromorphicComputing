@@ -25,8 +25,8 @@ class HPCBMOptimizee(Optimizee):
 
         individual = {'weight_ex':  random.uniform(0     , 200),
                       'weight_in':  random.uniform(-1000  , 0),
-                      'CE':        500, #random.uniform(1     , 1),
-                      'CI':        100, #random.uniform(1     , 1),
+                      'CE':         int(random.uniform(400     , 600)),
+                      'CI':         int(random.uniform(50     , 150)),
                       'delay':      random.uniform(0.1   , 10),
                       }   
 
@@ -47,8 +47,8 @@ class HPCBMOptimizee(Optimizee):
 
         individual = {'weight_ex':  np.clip(individual['weight_ex'] , 0     , 200),
                       'weight_in':  np.clip(individual['weight_in'] , -1000  , -0),
-                      'CE':        np.clip(individual['CE']       , 500, 500),
-                      'CI':        np.clip(individual['CI']       , 100, 100),
+                      'CE':         np.clip(individual['CE']       , 400, 600),
+                      'CI':         np.clip(individual['CI']       , 50, 150),
                       'delay':      np.clip(individual['delay']     , 0.1   , 10),
                       }    
         return individual
