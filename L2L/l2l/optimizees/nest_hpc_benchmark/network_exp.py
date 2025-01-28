@@ -107,12 +107,12 @@ class NestBenchmarkNetwork():
 
         self.nrec = min(nrec, self.NE)
 
-        # set global kernel parameters
+        # set global kernel parameters CHANGES: rng_seed -> grng_seed
         nest.SetKernelStatus({'local_num_threads': self.params['num_threads'],
                               'resolution': self.params['dt'],
-                              'rng_seed': self.params['rng_seed'],
+                              'grng_seed': self.params['rng_seed'],
                               'overwrite_files': True,
-                              'use_compressed_spikes': self.params['compressed_spikes'],
+                              #'use_compressed_spikes': self.params['compressed_spikes'],
                               'keep_source_table': False})
         if extra_kernel_params:
             nest.SetKernelStatus(extra_kernel_params)
@@ -144,10 +144,13 @@ class NestBenchmarkNetwork():
             nest.message(M_INFO, 'build_network',
                          'Randomzing membrane potentials.')
 
-            random_vm = nest.random.normal(self.brunel_params['mean_potential'],
-                                           self.brunel_params['sigma_potential'])
-            nest.GetLocalNodeCollection(E_neurons).V_m = random_vm
-            nest.GetLocalNodeCollection(I_neurons).V_m = random_vm
+            #CHANGES: random_vm = nest.random.normal(self.brunel_params['mean_potential'],self.brunel_params['sigma_potential'])
+            random_vm = np.random.normal(self.brunel_params['mean_potential'], self.brunel_params['sigma_potential'], None)
+            #CHANGES: nest.GetLocalNodeCollection -> nest.GetLid(gid), loops
+            for e in E_neurons:
+                nest.GetLID(e).V_m = random_vm
+            for i in I_neurons:
+                nest.GetLID(i).V_m = random_vm
 
 
 
