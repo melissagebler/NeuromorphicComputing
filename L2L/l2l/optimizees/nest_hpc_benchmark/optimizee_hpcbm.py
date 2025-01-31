@@ -1,7 +1,7 @@
 import time
 from collections import namedtuple
 from l2l.optimizees.optimizee import Optimizee
-from .network_exp import NestBenchmarkNetwork
+from .pynn_network import Pynn_Net
 import numpy as np
 import random
 
@@ -67,13 +67,21 @@ class HPCBMOptimizee(Optimizee):
         CE = int(traj.individual.CE)
         CI = int(traj.individual.CI)
         delay = traj.individual.delay
-        net = NestBenchmarkNetwork(scale=self.scale, 
+        """net = Pynn_Net(scale=self.scale, 
                                    CE=CE, 
                                    CI=CI, 
                                    weight_excitatory=weight_ex, 
                                    weight_inhibitory=weight_in, 
                                    delay=delay,
                                    nrec=self.nrec
+                                   )"""
+        net = Pynn_Net(scale=0.01, 
+                                   CE=50, 
+                                   CI=10, 
+                                   weight_excitatory=15, 
+                                   weight_inhibitory=-100, 
+                                   delay=5,
+                                   nrec=5
                                    )
         average_rate = net.run_simulation()
 
