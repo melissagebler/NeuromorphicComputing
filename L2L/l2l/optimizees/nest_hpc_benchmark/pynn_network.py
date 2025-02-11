@@ -1,3 +1,6 @@
+%%file ~/pynn_net.py
+
+import time
 import pyNN.spiNNaker as sim
 
 class Pynn_Net():
@@ -20,7 +23,7 @@ class Pynn_Net():
     def build_network(self):
     #input and populations
     #!!change input rate0
-        self.input_poisson = sim.Population(1, sim.SpikeSourcePoisson(rate = self.scale*1000000), label = 'input')
+        self.input_poisson = sim.Population(1, sim.SpikeSourcePoisson(rate = self.scale*10), label = 'input')
         #input_in = sim.Population(self.NI/3, sim.SpikeSourcePoisson, label = 'input_in')
         self.pop1_ex=sim.Population(self.NE, sim.IF_curr_exp())
         self.pop1_in=sim.Population(self.NI, sim.IF_curr_exp())
@@ -44,14 +47,36 @@ class Pynn_Net():
         sim.Projection(self.pop1_in, self.pop1_ex, sim.FixedNumberPreConnector(self.CI, with_replacement = True, allow_self_connections = False), synapse_type=sim.StaticSynapse(weight=self.weight_inhibitory, delay=self.delay))
 
     def run_simulation(self):
+        start = time.time()
         self.build_network()
-        sim.run(200)
+        end = time.time()
+        buildtime = end - start
+        
+        start = time.time()
+        sim.run(300)
         #spikes1=self.sample_ex.get_data(["spikes"]).segments[0].spiketrains
         #spikes2=self.sample_in.get_data(["spikes"]).segments[0].spiketrains
         average_rate = self.sample_ex.mean_spike_count()
-        sim.end
         
-        return average_rate
+        temp = time.time()
+        simtime = temp - start
+        
+        if average_rate/simtime < 100:
+            #sim.reset()
+            sim.run(2000)
+            average_rate = self.sample_ex.mean_spike_count()
+            sim.end()
+            end = time.time()
+            simtime = end - start
+            average_rate = average_rate/simtime
+        else:
+            sim.end()
+            end = time.time()
+            simtime = end - start
+            #average_rate = NaN
+        
+        #sim.end()
+        return average_rate, buildtime, simtime
 
 if __name__ == "__main__":    
 #extract data
@@ -61,11 +86,15 @@ if __name__ == "__main__":
                                    CI=10, 
                                    weight_excitatory=15, 
                                    weight_inhibitory=-100, 
-                                   delay=5,
+                                   delay=10,
                                    nrec=5
                                    )
-
-    spikes1, spikes2 = net.run_simulation()
+    average_rate, buildtime, simtime = net.run_simulation()
+    with open('average_rate.txt', 'w') as f:
+        f.write(f"{average_rate}")
+    with open('times.txt', 'w') as f:
+        f.write(f"{buildtime}\n{simtime}")    
+    #spikes1 = net.run_simulation()
     
     """spikes1=pop1.get_data(["spikes"]).segments[0].spiketrains
     v1 = pop1.get_data(["spikes","v"]).segments[0].filter(name='v')[0]
