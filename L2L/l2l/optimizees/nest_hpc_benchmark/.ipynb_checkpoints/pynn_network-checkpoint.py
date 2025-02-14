@@ -1,3 +1,4 @@
+
 import time
 import pyNN.spiNNaker as sim
 
@@ -23,8 +24,10 @@ class Pynn_Net():
     def build_network(self):
     #input and populations
     #!!change input rate0
+
         self.input_poisson_ex = sim.Population(self.NE, sim.SpikeSourcePoisson(rate = self.poisson_rate), label = 'input_ex')
         self.input_poisson_in = sim.Population(self.NI, sim.SpikeSourcePoisson(rate = self.poisson_rate), label = 'input_in')
+
         self.pop1_ex=sim.Population(self.NE, sim.IF_curr_exp())
         self.pop1_in=sim.Population(self.NI, sim.IF_curr_exp())
 
@@ -52,6 +55,7 @@ class Pynn_Net():
         return 1000*pop.mean_spike_count()/simtime
         
     def run_simulation(self):
+
         sim.setup(1.0)
         
         # build network
@@ -76,6 +80,7 @@ class Pynn_Net():
 
         return average_rate, buildtime, runtime
 
+
 """if __name__ == "__main__":    
 #extract data
 
@@ -93,4 +98,6 @@ class Pynn_Net():
     with open('times.txt', 'w') as f:
         f.write(f"{buildtime}\n{simtime}")    
     #spikes1 = net.run_simulation()
+<<<<<<< HEAD
 """    
+
