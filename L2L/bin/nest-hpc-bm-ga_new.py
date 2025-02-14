@@ -14,9 +14,13 @@ def run_experiment():
     experiment = Experiment(
         root_dir_path='../results')
     #"srun --ntasks=1 --cpus-per-task=32 --threads-per-core=1   --exact
-    jube_params = { "exec": "--exact python"} 
+    runner_params = {
+        "srun": "",
+        "exec": "python"
+    } 
     traj, _ = experiment.prepare_experiment(
-        jube_parameter=jube_params, name=f"HPCBenchmark_CrossEntropy", multiprocessing=False)
+        runner_params=runner_params, name=f"BenchmarkGD", overwrite=True)
+    
         
     optimizer_choice = "ce"
 
