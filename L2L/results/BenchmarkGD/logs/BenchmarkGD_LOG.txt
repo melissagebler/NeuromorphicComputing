@@ -1,0 +1,23 @@
+2025-02-12 14:33:48,088 utils.trajectory jupyter-melgeb 1852 INFO    : Added new parameter group: runner_params
+2025-02-12 14:33:48,089 utils.experiment jupyter-melgeb 1852 INFO    : No parameter 'max_workers' given to runner. Using default value 32.
+2025-02-12 14:33:48,090 utils.trajectory jupyter-melgeb 1852 INFO    : Added new parameter group: individual
+2025-02-12 14:33:48,091 utils.trajectory jupyter-melgeb 1852 INFO    : Expanded trajectory for generation: 0
+2025-02-12 14:33:48,091 utils.experiment jupyter-melgeb 1852 INFO    : Optimizee parameters: HPCBMOptimizeeParameters(scale=0.05, nrec=100)
+2025-02-12 14:33:48,091 utils.experiment jupyter-melgeb 1852 INFO    : Optimizer parameters: GeneticAlgorithmParameters(seed=1580211, pop_size=4, cx_prob=0.7, mut_prob=0.7, n_iteration=10, ind_prob=0.45, tourn_size=4, mate_par=0.5, mut_par=1)
+2025-02-12 14:33:48,095 utils.runner jupyter-melgeb 1852 INFO    : Serialized optimizee writen to path: /mnt/user/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/results/BenchmarkGD/simulation/optimizee.bin
+2025-02-12 14:33:48,095 utils.environment jupyter-melgeb 1852 INFO    : Environment run starting Runner for n iterations: 10
+2025-02-12 14:33:48,322 utils.runner jupyter-melgeb 1852 INFO    : All 4 workers created
+2025-02-12 14:33:48,322 utils.runner jupyter-melgeb 1852 INFO    : 4 workers launched
+
+2025-02-12 14:33:48,323 utils.environment jupyter-melgeb 1852 INFO    : Iteration: 1/10
+2025-02-12 14:33:48,331 utils.runner jupyter-melgeb 1852 INFO    : Running generation: 0
+2025-02-12 14:33:48,332 utils.runner jupyter-melgeb 1852 ERROR   : Worker could not be initialized
+2025-02-12 14:33:48,333 utils.environment jupyter-melgeb 1852 ERROR   : Error launching run: None
+Traceback (most recent call last):
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/environment.py", line 51, in run
+    result[it] = runner.run(self.trajectory,it)
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/runner.py", line 118, in run
+    exit_codes = self.simulate_generation(self.generation, len(trajectory.individuals[generation]))
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/runner.py", line 324, in simulate_generation
+    raise NotImplementedError("Restart failed for worker")
+NotImplementedError: Restart failed for worker

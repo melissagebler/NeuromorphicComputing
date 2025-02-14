@@ -14,9 +14,13 @@ def run_experiment():
     experiment = Experiment(
         root_dir_path='../results')
     #"srun --ntasks=1 --cpus-per-task=32 --threads-per-core=1   --exact
-    jube_params = { "exec": "srun --ntasks=1 --cpus-per-task=32 --threads-per-core=1 --exact python"} 
+    runner_params = {
+        "srun": "",
+        "exec": "python"
+    } 
     traj, _ = experiment.prepare_experiment(
-        jube_parameter=jube_params, name=f"HPCBenchmark_CrossEntropy")
+        runner_params=runner_params, name=f"BenchmarkGD", overwrite=True)
+    
         
     optimizer_choice = "ce"
 
@@ -27,6 +31,7 @@ def run_experiment():
                                                     )
     optimizee = HPCBMOptimizee(traj, optimizee_parameters)
 
+    """
     match optimizer_choice:
     ## Genetic Algorithm Optimizer
         case "ga":
@@ -72,8 +77,21 @@ def run_experiment():
     ##None of the above
         case _:
             print("No valid optimizer chosen")
-
-    
+"""
+    optimizer_parameters = GeneticAlgorithmParameters(seed=1580211, 
+                                                              pop_size=4,
+                                                              cx_prob=0.7,
+                                                              mut_prob=0.7,
+                                                              n_iteration=10,
+                                                              ind_prob=0.45,
+                                                              tourn_size=4,
+                                                              mate_par=0.5,
+                                                              mut_par=1)
+    optimizer = GeneticAlgorithmOptimizer(traj, 
+                                                  optimizee_create_individual=optimizee.create_individual,
+                                                  optimizee_fitness_weights=(1,),
+                                                  parameters=optimizer_parameters,
+                                                  optimizee_bounding_func=optimizee.bounding_func)
     
     # Run experiment
     experiment.run_experiment(optimizer=optimizer, optimizee=optimizee,

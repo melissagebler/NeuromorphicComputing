@@ -25,8 +25,12 @@ l2l/optimizees/mnist/__init__.py
 l2l/optimizees/mnist/nn.py
 l2l/optimizees/mnist/optimizee.py
 l2l/optimizees/nest_hpc_benchmark/__init__.py
+l2l/optimizees/nest_hpc_benchmark/calc_melissa.py
 l2l/optimizees/nest_hpc_benchmark/network.py
+l2l/optimizees/nest_hpc_benchmark/network_exp.py
+l2l/optimizees/nest_hpc_benchmark/network_melissa.py
 l2l/optimizees/nest_hpc_benchmark/optimizee_hpcbm.py
+l2l/optimizees/nest_hpc_benchmark/pynn_network.py
 l2l/optimizees/nest_hpc_benchmark/test_net.py
 l2l/optimizers/__init__.py
 l2l/optimizers/optimizer.py

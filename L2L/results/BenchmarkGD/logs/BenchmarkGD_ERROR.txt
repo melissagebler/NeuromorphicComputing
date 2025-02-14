@@ -1,0 +1,10 @@
+2025-02-12 14:33:48,332 utils.runner jupyter-melgeb 1852 ERROR   : Worker could not be initialized
+2025-02-12 14:33:48,333 utils.environment jupyter-melgeb 1852 ERROR   : Error launching run: None
+Traceback (most recent call last):
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/environment.py", line 51, in run
+    result[it] = runner.run(self.trajectory,it)
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/runner.py", line 118, in run
+    exit_codes = self.simulate_generation(self.generation, len(trajectory.individuals[generation]))
+  File "/opt/app-root/src/shared/NMC test collab for user melgeb/SpiNNaker/NeuromorphicComputing/L2L/l2l/utils/runner.py", line 324, in simulate_generation
+    raise NotImplementedError("Restart failed for worker")
+NotImplementedError: Restart failed for worker
