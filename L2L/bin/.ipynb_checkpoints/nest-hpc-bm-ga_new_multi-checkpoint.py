@@ -1,6 +1,7 @@
 from l2l.utils.experiment import Experiment
 import numpy as np
 
+"""
 from l2l.optimizees.nest_hpc_benchmark import HPCBMOptimizee, HPCBMOptimizeeParameters
 from l2l.optimizers.evolution import GeneticAlgorithmParameters, GeneticAlgorithmOptimizer
 from l2l.optimizers.crossentropy import CrossEntropyParameters, CrossEntropyOptimizer
@@ -8,7 +9,10 @@ from l2l.optimizers.crossentropy.distribution import NoisyGaussian
 from l2l.optimizees.functions.optimizee import FunctionGeneratorOptimizee
 from l2l.optimizers.gradientdescent.optimizer import GradientDescentOptimizer
 from l2l.optimizers.gradientdescent.optimizer import RMSPropParameters
-
+"""
+from l2l.optimizees.nest_hpc_benchmark import MultiOptimizee, MultiOptimizeeParameters
+from l2l.optimizers.multigradientdescent.optimizer import MultiGradientDescentOptimizer
+from l2l.optimizers.multigradientdescent.optimizer import MultiRMSPropParameters
 
 def run_experiment():
     experiment = Experiment(
@@ -26,10 +30,10 @@ def run_experiment():
 
     
     # nest HPC benchmark Optimizee
-    optimizee_parameters = HPCBMOptimizeeParameters(scale=0.05,
+    optimizee_parameters = MultiOptimizeeParameters(scale=0.05,
                                                     nrec=100
                                                     )
-    optimizee = HPCBMOptimizee(traj, optimizee_parameters)
+    optimizee = MultiOptimizee(traj, optimizee_parameters)
 
     """
     match optimizer_choice:
@@ -78,20 +82,14 @@ def run_experiment():
         case _:
             print("No valid optimizer chosen")
 """
-    optimizer_parameters = GeneticAlgorithmParameters(seed=1580211, 
-                                                              pop_size=4,
-                                                              cx_prob=0.7,
-                                                              mut_prob=0.7,
-                                                              n_iteration=10,
-                                                              ind_prob=0.45,
-                                                              tourn_size=4,
-                                                              mate_par=0.5,
-                                                              mut_par=1)
-    optimizer = GeneticAlgorithmOptimizer(traj, 
-                                                  optimizee_create_individual=optimizee.create_individual,
-                                                  optimizee_fitness_weights=(1,),
-                                                  parameters=optimizer_parameters,
-                                                  optimizee_bounding_func=optimizee.bounding_func)
+    optimizer_parameters = MultiRMSPropParameters(learning_rate=0.01, exploration_step_size=0.01,
+                                           n_random_steps=1, momentum_decay=0.5,
+                                           n_iteration=10, stop_criterion=np.Inf, seed=99, n_inner_params=4)
+
+    optimizer = MultiGradientDescentOptimizer(traj, optimizee_create_individual=optimizee.create_individual,
+                                         optimizee_fitness_weights=(0.1,),
+                                         parameters=optimizee_parameters,
+                                         optimizee_bounding_func=optimizee.bounding_func)
     
     # Run experiment
     experiment.run_experiment(optimizer=optimizer, optimizee=optimizee,
